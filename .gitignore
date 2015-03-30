@@ -55,3 +55,8 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#this script output default file
+odoo_import_me.csv
+
+
