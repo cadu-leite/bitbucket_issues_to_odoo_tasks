@@ -99,7 +99,7 @@ def create_odoo_csv(bitbucket_json_file):
                 issue[key] = issue[key].encode('utf-8')
             except:
                 issue[key] = issue[key]
-            issue[key] = issue[key].replace("\n", " ").replace("\r", " ").replace(",", ";")
+            #issue[key] = issue[key].replace("\n", " ").replace("\r", " ").replace(",", ";")
         # issue['content'] = "%s %s" % (issue['title'], issue['content'])  ## no longer needed since I discovered there is a summary and a description field.
 
         w.writerow(issue)
