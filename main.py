@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-
-
 REFERENCES:
 
 https://github.com/tiangolo/bitbucket_issues_to_redmine_csv/blob/master/bitbucket_issues_to_redmine_csv.py
@@ -11,13 +9,11 @@ usage
 
 1 - the maps files muts have NO spaces after comma (wrong ex.:  'xxx, nnnn' - ex.: xxx,nnn)
 
-import_bit2od.py  <bitbucket_json_file.json> -u <users_map.csv>  -s <status_map.csv>  -f <fields_map.csv>
-
-
-
+main.py  <bitbucket_json_file.json> -u <users_map.csv>  -s <status_map.csv>  -f <fields_map.csv>
 """
 import json
 import csv
+import click
 from dateutil.parser import parse as date_parse
 
 VERBOSE = False
@@ -29,6 +25,11 @@ OUTPUT_FILE = None
 USER_MAP = {}
 STATUS_MAP = {}
 FIELDS_MAP = {}
+
+
+@click.group()
+def cmds():
+    pass
 
 
 def render_translation_file(csv_map_file):
@@ -110,7 +111,7 @@ def create_odoo_csv(bitbucket_json_file):
     csv_file.close()
 
 
-def main(bitbucket_json_file,  **kwargs):
+def main(bitbucket_json_file, **kwargs):
     global OUTPUT_FILE
     global USER_MAP
     global STATUS_MAP
@@ -131,25 +132,33 @@ def main(bitbucket_json_file,  **kwargs):
     create_odoo_csv(bitbucket_json_file)
 
 
+@cmds.command()
+@click.argument('input', type=str, required=True)
+@click.option('--user-map-file', '-u', type=str,
+              help=u'a CSV file with two columns, one with a Bitbucket username and another with the corresponding ODOO username.')
+@click.option('--status-map-file', '-s', type=str,
+              help=u'a CSV file with two columns, one with a Bitbucket workflow status and another with the corresponding ODOO task stages.')
+@click.option('--fields-map-file', '-f', type=str,
+              help=u'a CSV file with two columns, one with a Bitbucket field(column) names and another with the corresponding ODOO field(column) names.')
+@click.option('--output', '-o', type=str,
+              help=u'a csv Issues file ready to ODOO')
+@click.option('--verbose', '-v', default=False, is_flag=True, help="increase output verbosity")
+def toodoo(input, user_map_file, status_map_file, fields_map_file, output,
+           verbose):
+    click.echo(u'Import 2 Odoo')
+    global VERBOSE
+    VERBOSE = verbose
+    global USER_MAP_FILE
+    USER_MAP_FILE = user_map_file
+    global STATUS_MAP_FILE
+    STATUS_MAP_FILE = status_map_file
+    global FIELDS_MAP_FILE
+    FIELDS_MAP_FILE = fields_map_file
+    global OUTPUT_FILE
+    OUTPUT_FILE = output
+
+    main(input)
+
+
 if __name__ == '__main__':
-    import argparse
-
-    parser = argparse.ArgumentParser(description=__doc__)
-    # ARGUMENTS
-    parser.add_argument('bitbucket_json_file', help='a Bitbucket Issues file exported (fomart = JSON)')
-
-    parser.add_argument('-o', '--output', help='a csv Issues file ready to ODOO')
-    parser.add_argument('-u', '--user-map-file', help='a CSV file with two columns, one with a Bitbucket username and another with the corresponding ODOO username.')
-    parser.add_argument('-s', '--status-map-file', help='a CSV file with two columns, one with a Bitbucket workflow status and another with the corresponding ODOO task stages.')
-    parser.add_argument('-f', '--fields-map-file', help='a CSV file with two columns, one with a Bitbucket field(column) names and another with the corresponding ODOO field(column) names.')
-
-    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-    args = parser.parse_args()
-
-    VERBOSE = args.verbose
-    USER_MAP_FILE = args.user_map_file
-    STATUS_MAP_FILE = args.status_map_file
-    OUTPUT_FILE = args.output
-    FIELDS_MAP_FILE = args.fields_map_file
-
-    main(args.bitbucket_json_file)
+    cmds()
