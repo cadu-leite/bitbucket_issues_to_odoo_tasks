@@ -59,10 +59,10 @@ def create_odoo_csv(bitbucket_json_file):
 
     csv_file = open(OUTPUT_FILE, 'wb')
 
-    #w = csv.DictWriter(csv_file, data['issues'][0].keys(), )
-    w = csv.DictWriter(csv_file, data['issues'][0].keys(),  )
+    # w = csv.DictWriter(csv_file, data['issues'][0].keys(), )
+    w = csv.DictWriter(csv_file, data['issues'][0].keys(),)
     # ['Stage', 'Description', '', '', '', 'Task Summary', '', '', '', 'Assigned to', '', '', '', '', 'Last Stage Update', '', ''])
-    #w.writeheader()
+    # w.writeheader()
 
     if FIELDS_MAP is not None:
         w.writerow(FIELDS_MAP)
@@ -102,7 +102,7 @@ def create_odoo_csv(bitbucket_json_file):
                 issue[key] = issue[key].encode('utf-8')
             except:
                 issue[key] = issue[key]
-            #issue[key] = issue[key].replace("\n", " ").replace("\r", " ").replace(",", ";")
+            # issue[key] = issue[key].replace("\n", " ").replace("\r", " ").replace(",", ";")
         # issue['content'] = "%s %s" % (issue['title'], issue['content'])  ## no longer needed since I discovered there is a summary and a description field.
 
         w.writerow(issue)
