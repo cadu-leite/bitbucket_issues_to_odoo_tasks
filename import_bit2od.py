@@ -10,6 +10,8 @@ usage
 
 1 - the maps files muts have NO spaces after comma (wrong ex.:  'xxx, nnnn' - ex.: xxx,nnn)
 
+import_bit2od.py  <bitbucket_json_file.json> -u <users_map.csv>  -s <status_map.csv>  -f <fields_map.csv>
+
 
 
 """

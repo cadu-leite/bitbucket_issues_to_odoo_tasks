@@ -1,6 +1,10 @@
 # bitbucket_issues_to_odoo_tasks
 A durty script to import issues from BitBucket export file, into ODOO csv file
 
+
+>python import_bit2od.py  <bitbucket_json_file.json> -u <users_map.csv>  -s <status_map.csv>  -f <fields_map.csv>
+
+
 ##Waht it does ?
 
 After export the  BitBucket issues to a JSON file, from the _settings/import/export/_  in your  BitBucket repo.
