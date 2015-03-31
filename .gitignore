@@ -59,4 +59,5 @@ target/
 #this script output default file
 odoo_import_me.csv
 
-
+# bitbucket file
+*.json
