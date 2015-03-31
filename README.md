@@ -6,6 +6,8 @@ A durty script to import issues from BitBucket export file, into ODOO csv file
 After export the  BitBucket issues to a JSON file, from the _settings/import/export/_  in your  BitBucket repo.
 Download the _.zip_ file e extract the json.
 
+    https://bitbucket.org/api/1.0/repositories/<user>/<repo>/issues/export/zip
+
 This script will import all the issues to an ODOO project
 
 in the repo, you may find an output sample CSV file (_sample_output_odoo_import_me.csv_)
