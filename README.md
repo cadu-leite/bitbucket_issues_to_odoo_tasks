@@ -1,45 +1,67 @@
 # bitbucket_issues_to_odoo_tasks
-A durty script to import issues from BitBucket export file, into ODOO csv file
+
+A durty script to import issues from Bitbucket to [odoo]  former OpenERP
 
 
-    python import_bit2od.py  \<bitbucket_json_file.json\> -u \<users_map.csv\>  -s \<status_map.csv\>  -f \<fields_map.csv\>
+    python main.py  <bitbucket_json_file.json> [-u <users_map.csv>]  [-s <status_map.csv>]  [-f <fields_map.csv>]
 
 
-##Waht it does ?
+##What you need ?
 
-After export the  BitBucket issues to a JSON file, from the _settings/import/export/_  in your  BitBucket repo.
-Download the _.zip_ file e extract the json.
+1. Export the  Bitbucket issues.
+    2. Go to  _settings/import/export/_  in your  BitBucket repo or  you may use the following url passing _user_ and _repo_ as parameters.
 
-    https://bitbucket.org/api/1.0/repositories/<user>/<repo>/issues/export/zip
+        ```
+        http://bitbucket.org/api/1.0/repositories/<user>/<repo>/issues/export/zip
+        ```
 
-This script will import all the issues to an ODOO project
+    It will create a _zip_ file, and will show you a link do download the file.
 
-in the repo, you may find an output sample CSV file (_sample_output_odoo_import_me.csv_)
+2. Download the _.zip_ file e extract the _json_ (_ex.:db-1.0.json_).
 
-###What it import:
+###What does it import ?
  -  Assingned user
  -  last updated date
- -  issues status
+ -  issue status
  -  issue description
  -  issue title
 
-###What it does not import ?
+###What it does NOT ?
 
-It will not import _yet_
- - Files atacheds
- - Followers
+It will not import ... _yet_ !
+ - Files attached
+ - Followers  
  - comments.
  - tags...
 
 ## How !
 
-to migrate issues from BitBucket to ODOO
-you will need to map :
+Before actually due the migration, you need to map some issues data (status, users, ... ) from Bitbucket to [odoo], so you may have different issues types or status for each system.
 
-1. Users: Users on ODOO have no nickname (at last, i didint found yet).
-2. STATUS: issues status will task stages on Kanban board.
-3. fields: You may use the sample file on this repo.
+If you do so, you may use a CSV file to "tell"the script how to translate ...
 
-On this repo you will find a simple sample file for every case ... its simple, just rewrite it.
+_ex.: Bitbucket "open" status, to "new" task. on [odoo]_
 
-You need also, a bitbucket export file on JSON format. [Docs here](https://confluence.atlassian.com/display/BITBUCKET/Export+or+import+issue+data) On Export topic.
+or
+
+_a user on bitbucket named "ze123" with a odoo name "José Silva"_
+
+Be aware ...
+
+1. Users: Users on ODOO have no nickname (at least, I didint found yet).
+2. STATUS: issues status will become task stages on Kanban board.
+3. fields: bitbucket issue has a _title_ field, odoo has _summary_  and the list goes on .
+
+On this repo you will find 3 sample files, one for each case ... just rewrite it.
+
+If you nedd no mapping just
+
+    python main.py  <db-1.0.json or whatever you renamed it>
+
+or if you have mapping  ... use the params to tell the script which ...
+
+    python main.py  <bitbucket_json_file.json> [-u <users_map.csv>]  [-s <status_map.csv>]  [-f <fields_map.csv>]
+
+In this repo, you will find an output sample CSV file named _sample_  output_odoo_import_me.csv_
+
+[odoo]: Http://www.odooo.com "odoo site"
