@@ -32,8 +32,7 @@ def cmds():
     pass
 
 
-def render_translation_file(csv_map_file):
-    map_file = open(csv_map_file)
+def render_translation_file(map_file):
     map_reader = csv.reader(map_file)
     dict_rendered = dict([row for row in map_reader])
     map_file.close()
@@ -58,10 +57,8 @@ def create_odoo_csv(bitbucket_json_file):
 
     issues = data['issues']
 
-    csv_file = open(OUTPUT_FILE, 'wb')
-
     # w = csv.DictWriter(csv_file, data['issues'][0].keys(), )
-    w = csv.DictWriter(csv_file, data['issues'][0].keys(),)
+    w = csv.DictWriter(OUTPUT_FILE, data['issues'][0].keys(),)
     # ['Stage', 'Description', '', '', '', 'Task Summary', '', '', '', 'Assigned to', '', '', '', '', 'Last Stage Update', '', ''])
     # w.writeheader()
 
@@ -108,7 +105,7 @@ def create_odoo_csv(bitbucket_json_file):
 
         w.writerow(issue)
 
-    csv_file.close()
+    OUTPUT_FILE.close()
 
 
 def main(bitbucket_json_file, **kwargs):
@@ -131,15 +128,17 @@ def main(bitbucket_json_file, **kwargs):
 
 @cmds.command()
 @click.argument('input', type=str, required=True)
-@click.option('--user-map-file', '-u', type=str,
+@click.option('--user-map-file', '-u', type=click.File('rb'),
               help=u'a CSV file with two columns, one with a Bitbucket username and another with the corresponding ODOO username.')
-@click.option('--status-map-file', '-s', type=str,
+@click.option('--status-map-file', '-s', type=click.File('rb'),
               help=u'a CSV file with two columns, one with a Bitbucket workflow status and another with the corresponding ODOO task stages.')
-@click.option('--fields-map-file', '-f', type=str,
+@click.option('--fields-map-file', '-f', type=click.File('rb'),
               help=u'a CSV file with two columns, one with a Bitbucket field(column) names and another with the corresponding ODOO field(column) names.')
-@click.option('--output', '-o', type=str, default="odoo_import_me.csv",
+@click.option('--output', '-o', type=click.File('wb'),
+              default="odoo_import_me.csv",
               help=u'a csv Issues file ready to ODOO')
-@click.option('--verbose', '-v', default=False, is_flag=True, help="increase output verbosity")
+@click.option('--verbose', '-v', default=False, is_flag=True,
+              help="increase output verbosity")
 def toodoo(input, user_map_file, status_map_file, fields_map_file, output,
            verbose):
     click.echo(u'Import 2 Odoo')
@@ -156,7 +155,7 @@ def toodoo(input, user_map_file, status_map_file, fields_map_file, output,
     OUTPUT_FILE = output
 
     main(input)
-    click.echo(u'Generate file: {}'.format(output))
+    click.echo(u'Generate file: {}'.format(output.name))
 
 
 if __name__ == '__main__':
