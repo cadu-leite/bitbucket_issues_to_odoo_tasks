@@ -58,7 +58,7 @@ If you nedd no mapping just
 
     python main.py  <db-1.0.json or whatever you renamed it>
 
-or if you have mapping  ... use the params to tell the script which ...
+or if you have mapping  ... 
 
     python main.py  <bitbucket_json_file.json> [-u <users_map.csv>]  [-s <status_map.csv>]  [-f <fields_map.csv>]
 
