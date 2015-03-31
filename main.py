@@ -126,9 +126,6 @@ def main(bitbucket_json_file, **kwargs):
     if FIELDS_MAP_FILE:
         FIELDS_MAP = render_translation_file(FIELDS_MAP_FILE)
 
-    if OUTPUT_FILE is None:
-        OUTPUT_FILE = "odoo_import_me.csv"
-
     create_odoo_csv(bitbucket_json_file)
 
 
@@ -140,12 +137,13 @@ def main(bitbucket_json_file, **kwargs):
               help=u'a CSV file with two columns, one with a Bitbucket workflow status and another with the corresponding ODOO task stages.')
 @click.option('--fields-map-file', '-f', type=str,
               help=u'a CSV file with two columns, one with a Bitbucket field(column) names and another with the corresponding ODOO field(column) names.')
-@click.option('--output', '-o', type=str,
+@click.option('--output', '-o', type=str, default="odoo_import_me.csv",
               help=u'a csv Issues file ready to ODOO')
 @click.option('--verbose', '-v', default=False, is_flag=True, help="increase output verbosity")
 def toodoo(input, user_map_file, status_map_file, fields_map_file, output,
            verbose):
     click.echo(u'Import 2 Odoo')
+    click.echo(u'...')
     global VERBOSE
     VERBOSE = verbose
     global USER_MAP_FILE
@@ -158,6 +156,7 @@ def toodoo(input, user_map_file, status_map_file, fields_map_file, output,
     OUTPUT_FILE = output
 
     main(input)
+    click.echo(u'Generate file: {}'.format(output))
 
 
 if __name__ == '__main__':
