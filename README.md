@@ -65,3 +65,26 @@ or if you have mapping  ...
 In this repo, you will find an output sample CSV file named _sample_  output_odoo_import_me.csv_
 
 [odoo]: Http://www.odooo.com "odoo site"
+
+
+====================
+
+
+1. ir no settings do repo para exportar as issues 
+
+    https://bitbucket.org/<username>/<reponame>/admin
+
+1. acesse o menu _import/export_
+
+    https://bitbucket.org/<username>/<reponame>/admin/issues/import-export
+
+1. clique no botão _start export_
+
+ Aguarde, enquanto o bitbucket constroi o arquivo de exportação.
+ Quando o arquivo estiver disponível, um link de ddownload (ZIP file) será mostrado em um dialog.
+
+
+
+1. Baixe o arquivo e decompacte-o ...
+
+
